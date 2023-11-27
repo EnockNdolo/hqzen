@@ -1,0 +1,7 @@
+{
+  "dest": "release-builds/installers/windows",
+  "icon": "src/renderer/assets/icons/icon.ico",
+  "categories": [
+    "Office"
+  ]
+}

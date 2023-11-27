@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <style media="screen">
+            @font-face {
+                font-family: 'Inter';
+                src: url('assets/fonts/Inter-Regular.ttf');
+                font-weight: 400;
+            }
+            
+            body {
+                padding: 0;
+                margin: 0;
+                font-family: 'Inter';
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+            }
+
+            .notification-window {
+                background-color: hsl(200, 72%, 53%);
+                color: hsl(0, 0%, 100%);
+            }
+
+            #window__close {
+                background-color: hsla(0, 0%, 100%, 0.3);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: absolute;
+                top: 4px;
+                right: 4px;
+                padding: 3px;
+                font-size: 12px;
+                color: hsl(0, 0%, 100%);
+                z-index: 2;
+                border-radius: 50%;
+            }
+
+            #window__close:hover {
+                background-color: #EF2D56;
+                cursor: pointer;
+            }
+
+            .material-icons {
+                font-size: inherit;
+            }
+
+            #screenshots-preview {
+                display: flex;
+                align-items: center;
+                width: max-content;
+            }
+
+            #screenshots-preview img {
+                background-color: hsla(0, 0%, 0%, 0.12);
+                width: 160px;
+                height: 90px;
+                object-fit: contain;
+                object-position: center;
+            }
+
+            #details {
+                padding: 6px;
+                text-align: center;
+                font-size: 12px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="notification-window">
+            <div id="window__close">
+                <i class="material-icons mdi mdi-close"></i>
+            </div>
+
+            <div id="screenshots-preview"></div>
+
+            <div id="details">
+                <strong id="time"></strong>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            const electron = require('electron');
+
+            // import local icons
+            let iconsPath = require.resolve('@mdi/font/css/materialdesignicons.css')
+            let link = document.createElement( "link" );
+            link.href = iconsPath;
+            link.type = "text/css";
+            link.rel = "stylesheet";
+            link.media = "screen,print";
+            document.getElementsByTagName( "head" )[0].appendChild( link );
+
+            electron.ipcRenderer.on('show-screenshot-notif', (event, data) => {
+                if (data) {
+                    let container = document.getElementById('screenshots-preview');
+                    for (let key in data) {
+                        let image = document.createElement('img');
+                        image.src = data[key];
+                        container.appendChild(image);
+                    }
+                    let date = new Date();
+                    document.getElementById('time').innerHTML = date.toLocaleString();
+                }
+            });
+            let closeNotifTimeout = setTimeout(() => {
+                closeWindow();
+            }, 10 * 1000)
+
+            document.getElementById('window__close').addEventListener('click', function() {
+                closeWindow();
+            });
+
+            function closeWindow() {
+                clearTimeout(closeNotifTimeout);
+                electron.ipcRenderer.send('close-notif');
+                electron.remote.getCurrentWindow().close();
+            }
+        </script>
+    </body>
+</html>

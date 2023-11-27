@@ -1,0 +1,145 @@
+// fonts
+$display-font: 'Inter', sans-serif;
+$body-font: 'Inter', sans-serif;
+$pricing-font: 'Inter', sans-serif;
+$display-font-new: 'Inter', sans-serif;
+
+// shades of gray
+$black: #0b0d0e;
+$darkest-gray: #2d3438; // gray-20
+$darker-gray: #49556B;
+$dark-gray: #72838c; // gray-50,
+$gray: #aab5ba; // gray-70
+$light-gray: #e2e6e8; // gray-90, use for border color
+$lightest-gray: #f6f7f8; // gray-97
+$white: white;
+$container-gray: #F6F6F6;
+
+// color states
+$primary-color: $black;
+$secondary-color: $dark-gray;
+$tertiary-color: $gray;
+$accent-color: #31a3dd;
+$border-color: $light-gray;
+$container-accent: #EFF8FC;
+
+// shades of blue
+$blue: $accent-color;
+$light-blue: #c6eafc;
+$lighter-blue: #EFF8FC;
+$dark-blue: #186c96;
+$container-blue: $container-accent;
+
+// shades of green
+$green: #09b66d;
+$light-green: #b3fbdc;
+$lighter-green: #EBF9F3;
+$dark-green: #057646;
+$container-green: #EBF9F3;
+
+// shades of yellow
+$yellow: #f5c023;
+$light-yellow: #fcefc7;
+$dark-yellow: #ae8407;
+$container-yellow: #FEFAED;
+
+// shades of red
+$red: #ef2d56;
+$light-red: #fcdfe5;
+$dark-red: #ab0d2e;
+$container-red: #FDF3F8;
+
+// shades of violet
+$violet: #c04cfd;
+$light-violet: #efd2fe;
+$dark-violet: #8b02d3;
+$container-violet: #FAF5FD;
+
+// shades of orange
+$orange: #f4a259;
+$light-orange: #fce7d5;
+$dark-orange: #ca660d;
+$container-orange: #FEF7F2;
+
+//color states
+$blue-hover: #2294cd;
+$blue-disabled: #afdaf0;
+$blue-hover-semifilled: #dbeff9;
+$red-hover: #d02348;
+$red-disabled: #f6d3db;
+$red-hover-semifilled: #fde1e7;
+$green-hover: #08a361;
+$green-disabled: #b1e4cf;
+$green-hover-semifilled: #b3fbdd;
+$yellow-hover: #e0ad14;
+$yellow-disabled: #f6eac5;
+$yellow-hover-semifilled: #fef6e1;
+
+// these color variables below will be deprecated soon. use the new color variables above
+$gray-5: #0b0d0e;
+$gray-10: #161a1c;
+$gray-15: #22272a;
+$gray-20: #2d3438;
+$gray-25: #394146;
+$gray-30: #444f54;
+$gray-35: #505c62;
+$gray-37: #5f5f5f;
+$gray-40: #5b6970;
+$gray-45: #67767e;
+$gray-50: #72838c;
+$gray-55: #809097;
+$gray-60: #8e9ca3;
+$gray-65: #9ca8ae;
+$gray-70: #aab5ba;
+$gray-75: #b8c1c5;
+$gray-80: #c6cdd1;
+$gray-85: #d4dadc;
+$gray-90: #e2e6e8;
+$gray-95: #f0f2f3;
+$gray-99: #fcfcfd;
+$accent-color-dark: #337ab7;
+$accent-color-light: #c6e5f5;
+
+// screen sizes
+$mobile-small: "screen and (max-width: 360px)";
+$mobile: "screen and (max-width: 576px)";
+$tablet: "screen and (max-width: 768px)";
+$laptop: "screen and (max-width: 1024px)";
+$laptop-medium: "screen and (max-width: 1200px)";
+$laptop-large: "screen and (max-width: 1440px)";
+
+// elevation (broad)
+$elevation-low: 0px 0px 1px rgba($black, 0.1), 0px 2px 4px rgba($black, 0.13);
+$elevation-mid: 0px 0px 2px rgba($black, 0.1), 0px 4px 8px rgba($black, 0.13);
+$elevation-high: 0px 1px 4px rgba($black, 0.1), 0px 8px 16px rgba($black, 0.13);
+$elevation-mid-high: 0px 2px 8px rgba($black, 0.1), 0px 16px 24px rgba($black, 0.13);
+$elevation-very-high: 0px 4px 16px rgba($black, 0.18), 0px 24px 64px rgba($black, 0.22);
+$elevation-modal: $elevation-very-high;
+$elevation-blue-low: 0px 0px 1px rgba($blue, 0.3), 0px 2px 4px rgba($blue, 0.39);
+$elevation-blue-mid: 0px 0px 2px rgba($blue, 0.3), 0px 4px 8px rgba($blue, 0.39);
+$elevation-blue-high: 0px 1px 4px rgba($blue, 0.3), 0px 8px 16px rgba($blue, 0.39);
+$elevation-blue-very-high: 0px 4px 16px rgba($blue, 0.54), 0px 24px 64px rgba($blue, 0.66);
+$elevation-red-low: 0px 0px 1px rgba($red, 0.3), 0px 2px 4px rgba($red, 0.39);
+$elevation-red-mid: 0px 0px 2px rgba($red, 0.3), 0px 4px 8px rgba($red, 0.39);
+$elevation-red-high: 0px 1px 4px rgba($red, 0.3), 0px 8px 16px rgba($red, 0.39);
+$elevation-red-very-high: 0px 4px 16px rgba($red, 0.54), 0px 24px 64px rgba($red, 0.66);
+$elevation-green-low: 0px 0px 1px rgba($green, 0.3), 0px 2px 4px rgba($green, 0.39);
+$elevation-green-mid: 0px 0px 2px rgba($green, 0.3), 0px 4px 8px rgba($green, 0.39);
+$elevation-green-high: 0px 1px 4px rgba($green, 0.3), 0px 8px 16px rgba($green, 0.39);
+$elevation-green-very-high: 0px 4px 16px rgba($green, 0.54), 0px 24px 64px rgba($green, 0.66);
+$elevation-yellow-low: 0px 0px 1px rgba($yellow, 0.3), 0px 2px 4px rgba($yellow, 0.39);
+$elevation-yellow-mid: 0px 0px 2px rgba($yellow, 0.3), 0px 4px 8px rgba($yellow, 0.39);
+$elevation-yellow-high: 0px 1px 4px rgba($yellow, 0.3), 0px 8px 16px rgba($yellow, 0.39);
+$elevation-yellow-very-high: 0px 4px 16px rgba($yellow, 0.54), 0px 24px 64px rgba($yellow, 0.66);
+
+// elevation (common) (use these for cards, and dropdowns)
+$elevation-default: $elevation-low;
+$elevation-hover: $elevation-mid;
+$elevation-blue-default: $elevation-blue-low;
+$elevation-blue-hover: $elevation-blue-mid;
+$elevation-red-default: $elevation-red-low;
+$eleavtion-red-hover: $elevation-red-mid;
+$elevation-green-default: $elevation-green-low;
+$elevation-green-hover: $elevation-green-mid;
+$elevation-yellow-default: $elevation-yellow-low;
+$elevation-yellow-hover: $elevation-yellow-mid;

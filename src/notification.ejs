@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <style media="screen">
+            @font-face {
+                font-family: 'Inter';
+                src: url('assets/fonts/Inter-Regular.ttf');
+                font-weight: 400;
+            }
+
+            body {
+                margin: 0;
+                overflow: hidden;
+                cursor: pointer;
+                font-family: 'Inter';
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+            }
+
+            .notification-window {
+                height: 95px;
+                display: grid;
+                border-radius: 5px;
+                background-color: hsl(200, 72%, 53%);
+                color: hsl(0, 0%, 100%);
+            }
+
+            .window-animation {
+                top: -95px;
+                opacity: 0;
+                position: absolute;
+                -webkit-animation: slide 0.5s forwards 0.5s, fadeout 3.5s forwards 5s;
+                animation: slide 0.5s forwards 0.5s, fadeout 3.5s forwards 5s;
+            }
+
+            @-webkit-keyframes slide {
+                100% { opacity: 100%; }
+                100% { top: 0; }
+            }
+            
+            @keyframes slide {
+                100% { opacity: 100%; }
+                100% { top: 0; }
+            }
+
+            @-webkit-keyframes fadeout {
+                100% { opacity: 0; }
+            }
+            
+            @keyframes fadeout {
+                100% { opacity: 0; }
+            }
+
+            #window__close {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: absolute;
+                top: 4px;
+                right: 4px;
+                padding: 3px;
+                font-size: 12px;
+                color: hsl(0, 0%, 100%);
+                z-index: 2;
+                border-radius: 50%;
+            }
+
+            #window__close:hover {
+                background-color: #EF2D56;
+                cursor: pointer;
+            }
+
+            .material-icons {
+                font-size: inherit;
+            }
+
+            #notification-header {
+                align-items: center;
+                display: flex;
+                padding: 10px 15px 0 15px;
+                font-size: 14px;
+            }
+
+            #notification-body {
+                display: inline-flex;
+                align-items: center;
+                height: 60px;
+                line-height: 1.45;
+            }
+
+            #notification-content {
+                padding: 0 10px 15px 15px;
+                text-overflow: ellipsis;
+                margin-bottom: 10px;
+                overflow: hidden;
+                font-size: 14px;
+                height: 40px;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+            }
+
+            .notif-bell {
+                padding: 0 15px 15px 15px;
+                font-size: 35px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="notification-window window-animation" id="notif-window">
+            <div id="window__close">
+                <i class="material-icons mdi mdi-close"></i>
+            </div>
+
+            <div id="notification-header">
+                <strong>ApplyBPO Time Tracker&nbsp;&#8226;&nbsp;</strong>
+            </div>
+
+            <div id="notification-body">
+                <div id="notification-content"></div>
+                <i class="mdi mdi-bell notif-bell"></i>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            const electron = require('electron');
+
+            // import local icons
+            let iconsPath = require.resolve('@mdi/font/css/materialdesignicons.css')
+            let link = document.createElement( "link" );
+            link.href = iconsPath;
+            link.type = "text/css";
+            link.rel = "stylesheet";
+            link.media = "screen,print";
+            document.getElementsByTagName( "head" )[0].appendChild( link );
+
+            electron.ipcRenderer.on('show-notif', (event, data) => {
+                if (data) {
+                    let notifBody = document.getElementById('notification-content');
+                    let p = document.createElement('p');
+                    p.innerHTML = data.notification.body;
+                    notifBody.appendChild(p);
+
+                    let unseen = document.createElement('span');
+                    unseen.innerHTML = data.unseenCount
+                        + ' unseen notification'
+                        + (data.unseenCount > 1 ? 's' : '');
+                    document.getElementById('notification-header').appendChild(unseen);
+                }
+            });
+
+            let closeNotifTimeout = setTimeout(() => {
+                closeWindow();
+            }, 8 * 1000);
+
+            document.getElementById('window__close').addEventListener('click', () => {
+                closeWindow();
+            });
+
+            document.body.addEventListener('click', () => {
+                electron.ipcRenderer.send('see-notif');
+                closeWindow();
+            });
+
+            document.body.addEventListener('mouseout', () => {
+                let el = document.getElementById('notif-window');
+                el.style.webkitAnimation = 'fadeout 3.5s forwards 5s';
+                el.style.animation = 'fadeout 3.5s forwards 5s';
+                closeNotifTimeout = setTimeout(() => {
+                    closeWindow();
+                }, 8 * 1000);
+            });
+
+            document.body.addEventListener('mouseover', () => {
+                clearTimeout(closeNotifTimeout);
+                closeNotifTimeout = null;
+                let el = document.getElementById('notif-window');
+                el.style.opacity = '100%';
+                el.classList.remove('window-animation');
+                el.style.webkitAnimation = '';
+                el.style.animation = '';
+                void element.offsetWidth;
+            });
+
+            function closeWindow() {
+                let currentWindow = electron.remote.getCurrentWindow();
+                clearTimeout(closeNotifTimeout);
+                electron.ipcRenderer.send('close-notif', currentWindow.id);
+                currentWindow.close();
+            }
+        </script>
+    </body>
+</html>

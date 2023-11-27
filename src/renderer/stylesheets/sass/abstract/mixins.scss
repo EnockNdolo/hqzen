@@ -1,0 +1,223 @@
+@mixin background-gradient($angle, $first, $second, $first-opacity: 100%, $second-opacity: 100%) {
+    background: $first;
+    background: -moz-linear-gradient($angle, $first $first-opacity, $second $second-opacity);
+    background: -webkit-linear-gradient($angle, $first $first-opacity, $second $second-opacity);
+    background: linear-gradient($angle, $first $first-opacity, $second $second-opacity);
+}
+
+@mixin border-button($name, $color, $width: '') {
+    &.#{$name} {
+        color: $color;
+        border: 1px solid rgba($color, .4);
+        
+        @if $width == 0 {
+            border: 0;
+        }
+        
+        &:hover {
+            background: rgba($color, 0.15);
+        }
+        
+        &:active {
+            background: rgba($color, 0.3);
+        }
+        
+        &[disabled] {
+            color: lighten($color, 20%);
+            border: 1px solid lighten($color, 20%);
+            background: none;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+    }
+}
+
+@mixin transparent-button($name, $color) {
+    &.#{$name} {
+        background: none;
+        color: $color;
+        border: 0;
+        
+        &:hover {
+            color: darken($color, 7.5%);
+        }
+        
+        &:active {
+            color: darken($color, 15%);
+        }
+    }
+}
+
+@mixin user-select($none) {
+    -moz-user-select: $none;
+    -webkit-user-drag: $none;
+    -ms-user-select: $none;
+    user-select: $none;
+}
+
+@mixin flex-column() {
+    display: flex;
+    flex-direction: column;
+}
+
+@mixin flex-align-center($direction: row) {
+    display: flex;
+    align-items: center;
+    @if $direction == column {
+        flex-direction: column;
+    }
+}
+
+@mixin flex-justify-center($direction: row) {
+    display: flex;
+    justify-content: center;
+    @if $direction == column {
+        flex-direction: column;
+    }
+}
+
+@mixin flex-align-justify-center($direction: row) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @if $direction == column {
+        flex-direction: column;
+    }
+}
+
+@mixin inline-flex-align-center($direction: row) {
+    display: inline-flex;
+    align-items: center;
+    @if $direction == column {
+        flex-direction: column;
+    }
+}
+
+@mixin inline-flex-justify-center($direction: row) {
+    display: inline-flex;
+    justify-content: center;
+    @if $direction == column {
+        flex-direction: column;
+    }
+}
+
+@mixin inline-flex-align-justify-center($direction: row) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    @if $direction == column {
+        flex-direction: column;
+    }
+}
+
+@mixin clear-list-formatting() {
+    padding: 0;
+    margin: 0;
+    
+    li {
+        list-style: none;
+    }
+}
+
+@mixin container-center() {
+    width: inherit;
+    margin: auto;
+}
+
+@mixin width-height($value) {
+    width: $value;
+    height: $value;
+}
+
+@mixin input-focus($color) {
+    border: 1px solid $color;
+}
+
+@mixin rotate($angle) {
+    -webkit-transform: rotate($angle);
+    -ms-transform: rotate($angle);
+    transform: rotate($angle);
+}
+
+@mixin draw-progress($progress, $color) {
+    .pie {
+        .half-circle {
+            border-color: $color;
+        }
+        
+        .left-side {
+            transform: rotate($progress * 3.6deg);
+        }
+        
+        @if $progress <= 50 {
+            .right-side {
+                display: block;
+            }
+        } @else {
+            clip: rect(auto, auto, auto, auto);
+            
+            .right-side {
+                transform: rotate(180deg);
+            }
+        }
+    }
+}
+
+@mixin pie-size($name, $size, $width) {
+    &.#{$name} {
+        @include width-height($size);
+
+        .pie {
+            clip: rect(0, $size, $size, $size / 2);
+
+            .half-circle {
+                border-width: $width;
+                clip: rect(0, $size / 2, $size, 0);
+            }
+        }
+
+        .shadow {
+            border-width: $width;
+        }
+
+        @for $i from 0 through 100 {
+            &.p-#{$i} {
+                @include draw-progress($i, $accent-color);
+            }
+        }
+    } 
+}
+
+@mixin pie-color($name, $color) {
+    &.#{$name} {
+        .half-circle {
+            border-color: $color;
+        }
+
+        .shadow {
+            border-color: rgba($color, .5);
+        }
+
+        @for $i from 0 through 100 {
+            &.p-#{$i} {
+                @include draw-progress($i, $color);
+            }
+        }
+    }
+}
+
+@mixin scrollbar() {
+    &::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: $dark-gray;
+        border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: $darkest-gray;
+    }
+}

@@ -1,0 +1,10 @@
+{
+  "dest": "release-builds/installers/debian",
+  "icon": "src/renderer/assets/icons/icon.png",
+  "categories": [
+    "Office"
+  ],
+  "lintianOverrides": [
+    "changelog-file-missing-in-native-package"
+  ]
+}

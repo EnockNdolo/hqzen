@@ -1,0 +1,200 @@
+/////////////////////////////////
+//           COLORS            //
+/////////////////////////////////
+$black: #000000;
+$white: #FFFFFF;
+$accent: #31a3dd;
+$primary: #0b0d0e;
+$secondary: #444F54;
+$tertiary: #72838C;
+$quaternary: #E2E6E8;
+$border: $quaternary;
+$error: #ef2d56;
+$success: #09b66d;
+$warning: #f5c023;
+// Highlight colors
+$accent-highlight: #D6EDF8;
+$primary-highlight: #F0F2F3;
+$error-highlight: #FFDAE2;
+$success-highlight: #CEF0E2;
+$warning-highlight: #FDF2D3;
+// Container colors
+$accent-container: #EFF8FC;
+$primary-container: #F6F6F6;
+$error-container: #FFEFF2;
+$success-container: #EBF9F3;
+$warning-container: #FEFAED;
+// Other colors
+$violet: #8B02D3;
+$orange: #F4A259;
+$pink: #ED64A6;
+$teal: #38B2AC;
+$indigo: #667EEA;
+$brown: #964B00;
+$violet-highlight: #E8CCF6;
+$orange-highlight: #FDECDE;
+$pink-highlight: #FBE0ED;
+$teal-highlight: #D7F0EE;
+$indigo-highlight: #E0E5FB;
+$brown-highlight: #EADBCC;
+$violet-container: #FAF5FD;
+$orange-container: #FEF7F2;
+$pink-container: #FDF3F8;
+$teal-container: #EFF9F8;
+$indigo-container: #F3F5FD;
+$brown-container: #F7F1EB;
+/////////////////////////////////
+//       SHADOW VALUES         //
+/////////////////////////////////
+// generic
+$shadow-low: 0px 0px 1px rgba(#0b0d0e, 0.1),
+0px 2px 4px rgba(#0b0d0e, 0.13);
+$shadow-mid: 0px 0px 2px rgba(#0b0d0e, 0.1),
+0px 4px 8px rgba(#0b0d0e, 0.13);
+$shadow-high: 0px 1px 4px rgba(#0b0d0e, 0.1),
+0px 8px 16px rgba(#0b0d0e, 0.13);
+// container-specific
+$shadow-card: 0px 0px 1px rgba(#0b0d0e, 0.1),
+0px 1px 4px rgba(#0b0d0e, 0.1);
+$shadow-card-hover: $shadow-mid;
+$shadow-modal: 0px 4px 16px rgba(#0b0d0e, 0.18),
+0px 24px 64px rgba(#0b0d0e, 0.22);
+$shadow-dropdown: 0px 0px 2px rgba(#0b0d0e, 0.1),
+0px 2px 6px rgba(#0b0d0e, 0.15);
+/////////////////////////////////
+//   SCREEN SIZES     //
+/////////////////////////////////
+$mobile-small: "screen and (max-width: 360px)";
+$mobile: "screen and (max-width: 576px)";
+$tablet: "screen and (max-width: 768px)";
+$desktop-small: "screen and (max-width: 1024px)";
+$desktop-medium: "screen and (max-width: 1200px)";
+$desktop-large: "screen and (min-width: 2560px)";
+/////////////////////////////////
+//        SPACING VALUES       //
+/////////////////////////////////
+$sp-144: 144px;
+$sp-100: 100px;
+$sp-80: 80px;
+$sp-64: 64px;
+$sp-60: 60px;
+$sp-56: 56px;
+$sp-48: 48px;
+$sp-44: 44px;
+$sp-40: 40px;
+$sp-36: 36px;
+$sp-32: 32px;
+$sp-28: 28px;
+$sp-24: 24px;
+$sp-20: 20px;
+$sp-16: 16px;
+$sp-12: 12px;
+$sp-8: 8px;
+$sp-4: 4px;
+/////////////////////////////////
+//        MISCELLANEOUS        //
+/////////////////////////////////
+// NOTE: Mixins should be defined in this section
+$corner-radius: 4px;
+@mixin scrollbar() {
+    &::-webkit-scrollbar {
+        width: 12px;
+        height: 12px;
+        transition: .2s;
+        background: $quaternary;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: $tertiary;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+        background: $secondary;
+    }
+    // Firefox
+    scrollbar-color: $tertiary transparent;
+    scrollbar-width: thin;
+}
+
+@mixin scrollbar-thin() {
+    &::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+        transition: .2s;
+        background: $quaternary;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: $tertiary;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+        background: $secondary;
+    }
+    // Firefox
+    scrollbar-color: $tertiary transparent;
+    scrollbar-width: thin;
+}
+
+@mixin clear-list-formatting() {
+    padding: 0;
+    margin: 0;
+    li {
+        list-style: none;
+    }
+}
+
+@mixin clamp-line($amount) {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: $amount;
+    -webkit-box-orient: vertical;
+}
+
+@mixin width-height($value) {
+    width: $value;
+    height: $value;
+}
+
+@mixin user-select($none) {
+    -moz-user-select: $none;
+    -webkit-user-drag: $none;
+    -ms-user-select: $none;
+    user-select: $none;
+}
+
+@mixin flex-align-center($direction: row) {
+    display: flex;
+    align-items: center;
+    @if $direction==column {
+        flex-direction: column;
+    }
+}
+
+@mixin flex-align-justify-center($direction: row) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @if $direction==column {
+        flex-direction: column;
+    }
+}
+
+@mixin inline-flex-align-center($direction: row) {
+    display: inline-flex;
+    align-items: center;
+    @if $direction==column {
+        flex-direction: column;
+    }
+}
+
+@mixin inline-flex-align-justify-center($direction: row) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    @if $direction==column {
+        flex-direction: column;
+    }
+}
+
+@mixin rotate($angle) {
+    -webkit-transform: rotate($angle);
+    -ms-transform: rotate($angle);
+    transform: rotate($angle);
+}

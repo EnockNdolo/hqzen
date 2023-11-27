@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <style media="screen">
+            @font-face {
+                font-family: 'Inter';
+                src: url('assets/fonts/Inter-Bold.ttf');
+                font-weight: 700;
+            }
+
+            body {
+                margin: 0;
+                overflow: hidden;
+                cursor: pointer;
+                font-family: 'Inter';
+                font-size: 13px;
+                font-weight: bold;
+                color: white;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                -webkit-app-region: drag;
+            }
+
+            .material-icons {
+                font-size: 15px !important;
+            }
+
+            .syncing {
+                animation: rotate 1.8s ease infinite;
+                pointer-events: none;
+                opacity: 50%;
+            }
+
+            @keyframes rotate {
+                from {
+                    transform: rotate(360deg);
+                }
+
+                to {
+                    transform: rotate(0deg);
+                }
+            }
+
+            #container {
+                width: 420px;
+                height: 32px;
+                border-radius: 5px;
+                display: flex;
+                align-items: center;
+            }
+
+            #action__button {
+                margin-left: 10px;
+                font-size: 20px;
+                -webkit-app-region: no-drag;
+            }
+
+            #task {
+                width: 280px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            #task__label {
+                padding: 10px;
+                flex: 1;
+            }
+
+            #time__earnings__label {
+                margin: 10px;
+                -webkit-app-region: no-drag;
+            }
+
+            #time {
+                display: flex;
+            }
+
+            #earnings {
+                display: none;
+            }
+
+            #window__close {
+                margin-right: 10px;
+                display: flex;
+                -webkit-app-region: no-drag;
+            }
+
+            #dot {
+                font-size: 10px;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id="container">
+            <div id="action__button">
+                <i id="mdi__icon"></i>
+            </div>
+            <div id="task__label">
+                <p id="task"></p>
+            </div>
+            <i class="mdi mdi-checkbox-blank-circle" id="dot"></i>
+            <div id="time__earnings__label">
+                <p id="time"></p>
+            </div>
+            <div id="window__close">
+                <i class="material-icons mdi mdi-close"></i>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            const electron = require('electron');
+
+            // import local icons
+            let iconsPath = require.resolve('@mdi/font/css/materialdesignicons.css')
+            let link = document.createElement( "link" );
+            link.href = iconsPath;
+            link.type = "text/css";
+            link.rel = "stylesheet";
+            link.media = "screen,print";
+            document.getElementsByTagName( "head" )[0].appendChild( link );
+
+            let isTimedIn = false;
+            let canTimeIn = false;
+            let taskName = 'No task selected';
+
+            document.getElementById('task').innerHTML = taskName;
+
+            // METHODS
+
+            function changeStyle() {
+                if (isTimedIn) {
+                    if (taskName === 'No task selected') {
+                        document.getElementById('container').style.backgroundColor = 'hsl(44, 91%, 91%)';
+                        document.getElementById('container').style.color = '#444F54';
+                        document.getElementById('dot').style.color = '#0BDE85';
+                        document.getElementById('mdi__icon').className = 'mdi mdi-stop';
+                    } else {
+                        document.getElementById('container').style.backgroundColor = 'hsl(200, 72%, 53%)';
+                        document.getElementById('container').style.color = '#FFFFFF';
+                        document.getElementById('dot').style.color = '#0BDE85';
+                        document.getElementById('mdi__icon').className = 'mdi mdi-stop';
+                    }
+                } else {
+                    document.getElementById('container').style.backgroundColor = '#72838C';
+                    document.getElementById('container').style.color = '#FFFFFF';
+                    document.getElementById('dot').style.color = 'hsl(0, 0%, 100%, 0.5)';
+                    if (canTimeIn) {
+                        document.getElementById('mdi__icon').className = 'mdi mdi-play';
+                    } else {
+                        document.getElementById('mdi__icon').className = 'mdi mdi-timer-off-outline';
+                    }
+                }
+            }
+
+            function floatToTime(num) {
+                let sign = num >= 0 ? 1 : -1;
+                num = num * sign; // Get positive value of num
+                let hours = Math.floor(num); // Separate the int from the decimal part
+                let minuteFloat = num - hours;
+                let minutes = Math.floor(60 * minuteFloat); // Get minutes
+                sign = sign === 1 ? '' : '-'; // Sign result
+                if (sign == '-') {
+                    return '0:00';
+                }
+                return sign + hours + ':' + pad(minutes, 2);
+            }
+
+            function pad(number, length) { //adds a leading zero if needed
+                let str = '' + number;
+                while (str.length < length) {
+                    str = '0' + str;
+                }
+                return str;
+            }
+
+            // IPC METHODS
+
+            electron.ipcRenderer.on('sync-bar', (event, data) => {
+                canTimeIn = data.canTimeIn;
+                if (data.isSyncing) {
+                    document.getElementById('mdi__icon').className = 'mdi mdi-cached';
+                    document.getElementById('action__button').className = 'syncing';
+                } else {
+                    isTimedIn = data.isTimedIn;
+                    taskName = data.taskName;
+                    document.getElementById('task').innerHTML = taskName;
+                    document.getElementById('time').innerHTML = floatToTime(data.hoursWorked);
+                    document.getElementById('action__button').className = '';
+                    changeStyle();
+                }
+            });
+
+            // MISC
+
+            document.getElementById('action__button').addEventListener('click', () => {
+                if (canTimeIn) {
+                    isTimedIn = !isTimedIn;
+                    electron.ipcRenderer.send('toggle-timelog-status', isTimedIn);
+                }
+            });
+
+            document.getElementById('window__close').addEventListener('click', () => {
+                electron.ipcRenderer.send('close-activity-bar');
+            });
+
+            changeStyle();
+
+        </script>
+    </body>
+</html>
